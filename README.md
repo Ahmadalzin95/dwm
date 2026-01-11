@@ -12,7 +12,7 @@ It is optimized for Ubuntu/Debian systems.
 
 ### dwm
 The following patches have been applied to the source code:
-- [autostart](git@github.com:Ahmadalzin95/my-suckless-config.git): Enables a startup script (`~/.dwm/autostart.sh`) to run background processes.
+- [autostart](https://dwm.suckless.org/patches/autostart/): Enables a startup script (`~/.dwm/autostart.sh`) to run background processes.
 - [fullgaps](https://dwm.suckless.org/patches/fullgaps/): Adds customizable gaps between windows for better aesthetics.
 - [restartsig](https://dwm.suckless.org/patches/restartsig/): Allows restarting dwm without logging out (Keybinding: `Alr + Ctrl + Shift + q`).
 
