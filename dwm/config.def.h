@@ -10,10 +10,10 @@ static const char *fonts[]          = { "monospace:size=10" };
 static const char dmenufont[]       = "monospace:size=10";
 /* Kaolin Storm Palette using standard names */
 static const char col_gray1[]       = "#080b11"; /* Background - Tiefschwarz-Blau */
-static const char col_gray2[]       = "#171d27"; /* Inactive Border - Sehr dunkles Grau (Color 1) */
+static const char col_gray2[]       = "#1d2155"; /* Inactive Border - Sehr dunkles Grau (Color 1) */
 static const char col_gray3[]       = "#a3b3d0"; /* Inactive Text - Helles Blaugrau (Color 6) */
 static const char col_gray4[]       = "#dde3ed"; /* Active Text - Fast Weiß (Color 7) */
-static const char col_cyan[]        = "#546580"; /* Accent/Active Border - Gedämpftes Blau (Color 4) */
+static const char col_cyan[]        = "#000000"; /* Accent/Active Border - Gedämpftes Blau (Color 4) */
 
 static const char *colors[][3]      = {
 	/* fg         bg         border   */
