@@ -1,0 +1,12 @@
+*.o
+*.a
+*.so
+
+/dwm/dwm
+/dmenu/dmenu
+/dmenu/stest
+
+config.h
+
+*.swp
+.DS_Store
