@@ -24,7 +24,7 @@ The following patches have been applied to the source code:
 
 1. **Install dependencies (Ubuntu/Debian):**
    ```bash
-   sudo apt install build-essential libx11-dev libxinerama-dev libxft-dev git
+   sudo apt install build-essential libx11-dev libxinerama-dev libxft-dev git feh
    ```
 2. **Clone the repository:**
    ```bash
@@ -36,6 +36,10 @@ The following patches have been applied to the source code:
    cd ~/suckless/dwm
    sudo make clean install
    ```
+   This command will install:
+   * The dwm binary.
+   * The dwm-start wrapper script (installed to /usr/local/bin/).
+   * The dwm.desktop entry (installed to /usr/share/xsessions/).
 4. **Install dependencies (Ubuntu/Debian):**
    ```bash
    sudo apt install build-essential libx11-dev libxinerama-dev libxft-dev git

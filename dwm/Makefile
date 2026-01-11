@@ -37,6 +37,12 @@ install: all
 	mkdir -p ${DESTDIR}${MANPREFIX}/man1
 	sed "s/VERSION/${VERSION}/g" < dwm.1 > ${DESTDIR}${MANPREFIX}/man1/dwm.1
 	chmod 644 ${DESTDIR}${MANPREFIX}/man1/dwm.1
+	mkdir -p /usr/local/bin
+	cp -f ../scripts/dwm-start /usr/local/bin/dwm-start
+	chmod 755 /usr/local/bin/dwm-start
+
+	mkdir -p /usr/share/xsessions
+	cp -f ../scripts/dwm.desktop /usr/share/xsessions/dwm.desktop
 
 uninstall:
 	rm -f ${DESTDIR}${PREFIX}/bin/dwm\
