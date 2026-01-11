@@ -10,3 +10,8 @@ config.h
 
 *.swp
 .DS_Store
+
+# Patch artifacts
+*.rej
+*.orig
+*.diff
