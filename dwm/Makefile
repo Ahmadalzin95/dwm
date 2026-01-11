@@ -45,6 +45,10 @@ install: all
 
 	mkdir -p /usr/share/xsessions
 	cp -f ../scripts/dwm.desktop /usr/share/xsessions/dwm.desktop
+	
+	mkdir -p ${DESTDIR}${PREFIX}/bin
+	cp -f ../scripts/dwm-menu ${DESTDIR}${PREFIX}/bin/dwm-menu
+	chmod 755 ${DESTDIR}${PREFIX}/bin/dwm-menu
 
 uninstall:
 	rm -f ${DESTDIR}${PREFIX}/bin/dwm\
