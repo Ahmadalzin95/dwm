@@ -2,6 +2,8 @@
 
 # Set the wallpaper (ensure path is correct)
 sleep 1 && feh --bg-scale /usr/share/backgrounds/Fuwafuwa_nanbatto_san_by_amaral-dark.png &
+setxkbmap -layout us,de,ara -option grp:win_space_toggle &
+slstatus &
 
 # Add other startup apps here
 
