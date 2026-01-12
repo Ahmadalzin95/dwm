@@ -1,11 +1,17 @@
 #!/bin/sh
 
-# Set the wallpaper (ensure path is correct)
-sleep 1 && feh --bg-scale /usr/share/backgrounds/Fuwafuwa_nanbatto_san_by_amaral-dark.png &
+# 1. Tastatur: Sofort laden (kein sleep nötig)
 setxkbmap -layout us,de,ara -option grp:win_space_toggle &
+
+# 2. Statusleiste: Startet im Hintergrund
 slstatus &
 
-# Add other startup apps here
+# 3. Grafik & Wallpaper: 1 Sekunde warten für Stabilität
+(sleep 1 && feh --bg-scale /usr/share/backgrounds/Fuwafuwa_nanbatto_san_by_amaral-dark.png) &
+(sleep 1 && picom) &
 
-# Finally, execute dwm
+# Falls du ein Tool für die Bildschirmhelligkeit nutzt, hier einfügen:
+# xbacklight -set 50 &
+
+# Schließlich dwm starten
 exec dwm

@@ -69,6 +69,7 @@ static const struct arg args[] = {
 	{ keymap,       " LAY %s | ",       NULL },
 	{ ram_perc, " RAM %s% | ",		NULL  },
 	{ cpu_perc, " CPU %s% | ",      NULL  },
+	{ run_command,  "  %s | ",  "pamixer --get-volume-human" },
 	{ battery_perc, " PWR %s%% | ", "BAT1" },
 	{ datetime, "%s",           "%d %b %Y %T" },	
 };

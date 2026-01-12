@@ -1,24 +1,18 @@
 #!/bin/sh
 
-BG="#080b11"
-FG="#a3b3d0"
-SEL_BG="#1d2155"
-SEL_FG="#dde3ed"
-FONT="JetBrainsMono Nerd Font:size=10"
+options="󰖩  WIFI\n󰂯  Bluetooth\n󱘖  VPN\n󰐥  Shutdown\n󰜉  Reboot"
 
-options="WIFI\nBLUETOOTH\nVPN\nPOWER"
-
-chosen=$(echo -e "$options" | dmenu -c -l 10 -p "SYSTEM:" -fn "$FONT" -nb "$BG" -nf "$FG" -sb "$SEL_BG" -sf "$SEL_FG")
+chosen=$(printf "$options" | dmenu -i -c -l 12 -p "System:")
 
 case "$chosen" in
-    WIFI)
+    *WIFI)
         gnome-terminal -- nmtui
         ;;
-    BLUETOOTH)
+    *Bluetooth)
         gnome-terminal -- bluetoothctl
         ;;
-    VPN)
-        vpn_choice=$(nmcli -g NAME,TYPE connection show | grep vpn | cut -d: -f1 | dmenu -c -l 5 -p "VPN-STEUERUNG:")
+    *VPN)
+        vpn_choice=$(nmcli -g NAME,TYPE connection show | grep vpn | cut -d: -f1 | dmenu -i -c -l 8 -p "VPN:")
         if [ -n "$vpn_choice" ]; then
             if nmcli connection show --active | grep -q "$vpn_choice"; then
                 nmcli connection down "$vpn_choice"
@@ -27,9 +21,10 @@ case "$chosen" in
             fi
         fi
         ;;
-    POWER)
-        pwr_choice=$(echo -e "REBOOT\nSHUTDOWN" | dmenu -c -l 5 -p "POWER:")
-        [ "$pwr_choice" = "REBOOT" ] && reboot
-        [ "$pwr_choice" = "SHUTDOWN" ] && poweroff
+    *Shutdown)
+        poweroff
+        ;;
+    *Reboot)
+        reboot
         ;;
 esac

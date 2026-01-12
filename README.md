@@ -25,6 +25,8 @@ The following patches have been applied to the source code:
 1. **Install dependencies (Ubuntu/Debian):**
    ```bash
    sudo apt install build-essential libx11-dev libxinerama-dev libxft-dev git feh
+   sudo apt install pipewire-audio-client-libraries libspa-0.2-bluetooth brightnessctl pamixer
+   sudo usermod -aG video $USER
    ```
 2. **Clone the repository:**
    ```bash
@@ -42,7 +44,7 @@ The following patches have been applied to the source code:
    * The dwm.desktop entry (installed to /usr/share/xsessions/).
 4. **Install dependencies (Ubuntu/Debian):**
    ```bash
-   sudo apt install build-essential libx11-dev libxinerama-dev libxft-dev git
+   sudo apt install build-essential libx11-dev libxinerama-dev libxft-dev git picom
    ```
 5. **Install dependencies (Ubuntu/Debian):**
    ```bash

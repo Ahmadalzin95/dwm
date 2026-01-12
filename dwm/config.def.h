@@ -48,8 +48,18 @@ static const Layout layouts[] = {
 	{ "[M]",      monocle },
 };
 
+/* PipeWire Lautstärke-Steuerung */
+static const char *upvol[]   = { "pamixer", "-i", "5", NULL };       /* +5% */
+static const char *downvol[] = { "pamixer", "-d", "5", NULL };       /* -5% */
+static const char *mutevol[] = { "pamixer", "-t", NULL };            /* Toggle Mute *
+
+/* Helligkeits-Steuerung */
+static const char *brightnessup[]   = { "brightnessctl", "set", "5%+", NULL };
+static const char *brightnessdown[] = { "brightnessctl", "set", "5%-", NULL };
+
 /* key definitions */
-#define MODKEY Mod4Mask
+#define MODKEY Mod1Mask
+#include <X11/XF86keysym.h>
 #define TAGKEYS(KEY,TAG) \
 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
@@ -61,7 +71,7 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-c", "-l", "10", "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-c", "-l", "10", NULL };
 static const char *termcmd[]  = { "gnome-terminal", NULL };
 static const char *sysmenucmd[] = { "dwm-menu", NULL };
 static const char *lockcmd[] = { "slock", NULL };
@@ -96,6 +106,11 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_equal,  setgaps,        {.i = 0  } },
 	{ MODKEY,                       XK_s,      spawn,          {.v = sysmenucmd } },
 	{ MODKEY, 						XK_l, 		spawn, 		   {.v = lockcmd } },
+	{ 0, 			XF86XK_AudioLowerVolume,  	spawn, {.v = downvol } },
+    { 0, 			XF86XK_AudioMute,         	spawn, {.v = mutevol } },
+    { 0, 			XF86XK_AudioRaiseVolume,  	spawn, {.v = upvol   } },
+    { 0, 			XF86XK_MonBrightnessUp,   	spawn, {.v = brightnessup   } },
+    { 0, 			XF86XK_MonBrightnessDown, 	spawn, {.v = brightnessdown } },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
