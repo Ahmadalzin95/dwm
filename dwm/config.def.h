@@ -2,13 +2,15 @@
 
 /* appearance */
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
-static const unsigned int gappx     = 10;       /* gaps between windows */
+static const unsigned int gappx     = 12;       /* gaps between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
-static const int showbar            = 1;        /* 0 means no bar */
+static const int showbar            = 0;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { "JetBrainsMono Nerd Font:size=10" };
 static const char dmenufont[]       = "monospace:size=10";
-/* Kaolin Storm Palette using standard names */
+static unsigned int baralpha        = 0x99;
+static unsigned int borderalpha     = OPAQUE;
+
 static const char col_gray1[]       = "#080b11";
 static const char col_gray2[]       = "#1d2155";
 static const char col_gray3[]       = "#a3b3d0";
@@ -48,12 +50,9 @@ static const Layout layouts[] = {
 	{ "[M]",      monocle },
 };
 
-/* PipeWire Lautstärke-Steuerung */
 static const char *upvol[]   = { "pamixer", "-i", "5", NULL };       /* +5% */
 static const char *downvol[] = { "pamixer", "-d", "5", NULL };       /* -5% */
-static const char *mutevol[] = { "pamixer", "-t", NULL };            /* Toggle Mute *
-
-/* Helligkeits-Steuerung */
+static const char *mutevol[] = { "pamixer", "-t", NULL };            /* Toggle Mute */
 static const char *brightnessup[]   = { "brightnessctl", "set", "5%+", NULL };
 static const char *brightnessdown[] = { "brightnessctl", "set", "5%-", NULL };
 
@@ -106,11 +105,11 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_equal,  setgaps,        {.i = 0  } },
 	{ MODKEY,                       XK_s,      spawn,          {.v = sysmenucmd } },
 	{ MODKEY, 						XK_l, 		spawn, 		   {.v = lockcmd } },
-	{ 0, 			XF86XK_AudioLowerVolume,  	spawn, {.v = downvol } },
-    { 0, 			XF86XK_AudioMute,         	spawn, {.v = mutevol } },
-    { 0, 			XF86XK_AudioRaiseVolume,  	spawn, {.v = upvol   } },
-    { 0, 			XF86XK_MonBrightnessUp,   	spawn, {.v = brightnessup   } },
-    { 0, 			XF86XK_MonBrightnessDown, 	spawn, {.v = brightnessdown } },
+	{ 0, 			XF86XK_AudioLowerVolume,  	spawn, 			{.v = downvol } },
+    { 0, 			XF86XK_AudioMute,         	spawn, 			{.v = mutevol } },
+    { 0, 			XF86XK_AudioRaiseVolume,  	spawn, 			{.v = upvol   } },
+    { 0, 			XF86XK_MonBrightnessUp,   	spawn, 			{.v = brightnessup   } },
+    { 0, 			XF86XK_MonBrightnessDown, 	spawn, 			{.v = brightnessdown } },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
