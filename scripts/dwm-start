@@ -7,9 +7,9 @@ gsettings set org.gnome.settings-daemon.plugins.keyboard active false &
 (sleep 1; setxkbmap -layout us,de,ara -option grp:win_space_toggle) &
 
 # Background: Start status bar and visuals
+(sleep 1 && feh --bg-scale /usr/share/backgrounds/Fuwafuwa_nanbatto_san_by_amaral-dark.png) &
+(sleep 1 && picom -b) &
 slstatus &
-feh --bg-scale /usr/share/backgrounds/Fuwafuwa_nanbatto_san_by_amaral-dark.png &
-picom -b &
 
 # Start: Execute DWM
 exec dwm

@@ -68,8 +68,8 @@ static const struct arg args[] = {
 	/* function format          argument */
 	{ keymap,       " LAY %s | ",       NULL },
 	{ ram_perc, " RAM %s% | ",		NULL  },
-	{ cpu_perc, " CPU %s% ",      NULL  },
-	{ temp,         "%s°C | ",    "/sys/class/thermal/thermal_zone0/temp" },
+	{ cpu_perc, " CPU %s%% ",      NULL  },
+	{ temp, "%s°C | ", "/sys/class/thermal/thermal_zone0/temp" },
 	{ run_command,  "  %s | ",  "pamixer --get-volume-human" },
 	{ battery_perc, " PWR %s%% | ", "BAT1" },
 	{ datetime, "%s",           "%d %b %Y %T" },	
