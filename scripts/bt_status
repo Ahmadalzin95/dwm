@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Description: Check Bluetooth status for slstatus
+
+if ! bluetoothctl show | grep -q "Powered: yes"; then
+    exit 0
+fi
+
+# Check if a device is connected
+DEVICE=$(bluetoothctl info | grep "Name" | cut -d ' ' -f 2-)
+
+if [ ! -z "$DEVICE" ]; then
+    # Bluetooth is CONNECTED
+    echo "󰂱"
+fi

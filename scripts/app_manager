@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# Description: Dynamically list and manage running X11 applications
+
+# Get the second column where the binary names are located
+ALL_APPS=$(xlsclients | awk '{print $2}' | sort -u)
+
+# List of core system apps to ignore
+IGNORE="dwm|slstatus|picom|feh|xsetroot|st|dmenu|ibus|xdg-desktop-portal"
+
+# Filter out the ignore list
+RUNNING=$(echo "$ALL_APPS" | grep -vE "$IGNORE")
+
+# Check if there is anything to show
+if [ -z "$RUNNING" ]; then
+    exit 0
+fi
+
+# chooses an app via dmenu
+CHOICE=$(echo "$RUNNING" | dmenu -i -c -l 12 -p "Running Apps:")
+
+if [ -n "$CHOICE" ]; then
+    # Kill the selected app
+    pkill -9 -f "$CHOICE"
+fi

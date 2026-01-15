@@ -27,6 +27,7 @@ The following patches have been applied to the source code:
    sudo apt install build-essential libx11-dev libxinerama-dev libxft-dev git feh
    sudo apt install pipewire-audio-client-libraries libspa-0.2-bluetooth brightnessctl pamixer
    sudo usermod -aG video $USER
+   sudo apt install dunst libnotify-bin
    ```
 2. **Clone the repository:**
    ```bash

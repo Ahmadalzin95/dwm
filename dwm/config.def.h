@@ -73,6 +73,7 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *dmenucmd[] = { "dmenu_run", "-c", "-l", "10", NULL };
 static const char *termcmd[]  = { "gnome-terminal", NULL };
 static const char *sysmenucmd[] = { "dwm-menu", NULL };
+static const char *appmanager[] = { "app_manager", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -103,6 +104,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_equal,  setgaps,        {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_equal,  setgaps,        {.i = 0  } },
 	{ MODKEY,                       XK_s,      spawn,          {.v = sysmenucmd } },
+	{ MODKEY, 						XK_x, 		spawn, 			{.v = appmanager } },
 	{ 0, 			XF86XK_AudioLowerVolume,  	spawn, 			{.v = downvol } },
     { 0, 			XF86XK_AudioMute,         	spawn, 			{.v = mutevol } },
     { 0, 			XF86XK_AudioRaiseVolume,  	spawn, 			{.v = upvol   } },

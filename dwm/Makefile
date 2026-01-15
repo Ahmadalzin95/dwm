@@ -39,19 +39,32 @@ install: all
 	chmod 644 ${DESTDIR}${MANPREFIX}/man1/dwm.1
 
 	# Install our custom scripts
-	mkdir -p ${DESTDIR}${PREFIX}/bin
 	cp -f ../scripts/dwm-start ${DESTDIR}${PREFIX}/bin/dwm-start
 	chmod 755 ${DESTDIR}${PREFIX}/bin/dwm-start
 
 	mkdir -p /usr/share/xsessions
 	cp -f ../scripts/dwm.desktop /usr/share/xsessions/dwm.desktop
 	
-	mkdir -p ${DESTDIR}${PREFIX}/bin
 	cp -f ../scripts/dwm-menu ${DESTDIR}${PREFIX}/bin/dwm-menu
 	chmod 755 ${DESTDIR}${PREFIX}/bin/dwm-menu
+
+	cp -f ../scripts/app_manager ${DESTDIR}${PREFIX}/bin/app_manager
+	chmod 755 ${DESTDIR}${PREFIX}/bin/app_manager
+	
+	cp -f ../scripts/bt_status ${DESTDIR}${PREFIX}/bin/bt_status
+	chmod 755 ${DESTDIR}${PREFIX}/bin/bt_status
+
+	cp -f ../scripts/hw_status ${DESTDIR}${PREFIX}/bin/hw_status
+	chmod 755 ${DESTDIR}${PREFIX}/bin/hw_status
 
 uninstall:
 	rm -f ${DESTDIR}${PREFIX}/bin/dwm\
 		${DESTDIR}${MANPREFIX}/man1/dwm.1
+	# Remove custom scripts
+	rm -f ${DESTDIR}${PREFIX}/bin/dwm-start \
+		${DESTDIR}${PREFIX}/bin/dwm-menu \
+		${DESTDIR}${PREFIX}/bin/app_manager
+	# Remove desktop session entry
+	rm -f /usr/share/xsessions/dwm.desktop
 
 .PHONY: all clean dist install uninstall

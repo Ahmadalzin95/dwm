@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# Description: Dynamically detect hardware names for slstatus
+
+case $1 in
+    wifi_essid)
+        # Find active wifi interface and get ESSID
+        INTERFACE=$(ip link | grep -E 'wlan|wlp' | awk '{print $2}' | tr -d ':' | head -n 1)
+        # If connected, show ESSID, else show 'Disconnected'
+        [ -n "$INTERFACE" ] && iwgetid -r "$INTERFACE" || echo "off"
+        ;;
+    wifi_perc)
+        # Find active wifi interface and get signal strength
+        INTERFACE=$(ip link | grep -E 'wlan|wlp' | awk '{print $2}' | tr -d ':' | head -n 1)
+        [ -n "$INTERFACE" ] && awk 'NR==3 {print int($3*100/70)}' /proc/net/wireless || echo "0"
+        ;;
+    battery)
+        # Find the first available battery (BAT0 or BAT1)
+        BAT=$(ls /sys/class/power_supply/ | grep BAT | head -n 1)
+        [ -n "$BAT" ] && cat "/sys/class/power_supply/$BAT/capacity" || echo "0"
+        ;;
+    temp)
+        # Find the first thermal zone temperature
+        if [ -f /sys/class/thermal/thermal_zone0/temp ]; then
+            echo $(( $(cat /sys/class/thermal/thermal_zone0/temp) / 1000 ))
+        else
+            echo "n/a"
+        fi
+        ;;
+esac
