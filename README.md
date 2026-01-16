@@ -28,6 +28,7 @@ The following patches have been applied to the source code:
    sudo apt install pipewire-audio-client-libraries libspa-0.2-bluetooth brightnessctl pamixer
    sudo usermod -aG video $USER
    sudo apt install dunst libnotify-bin
+   sudo apt install arc-theme adwaita-icon-theme-full
    ```
 2. **Clone the repository:**
    ```bash
@@ -46,6 +47,7 @@ The following patches have been applied to the source code:
 4. **Install dependencies (Ubuntu/Debian):**
    ```bash
    sudo apt install build-essential libx11-dev libxinerama-dev libxft-dev git picom
+   sudo apt install libdbus-1-dev libx11-dev libxinerama-dev libxrandr-dev libxss-dev libglib2.0-dev libpango1.0-dev libgtk-3-dev libxdg-basedir-dev libgdk-pixbuf-2.0-dev libnotify-dev
    ```
 5. **Install dependencies (Ubuntu/Debian):**
    ```bash

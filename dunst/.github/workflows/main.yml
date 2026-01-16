@@ -1,0 +1,125 @@
+name: main
+
+on:
+  push:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  # Enforce the standard of g_malloc instead of malloc in the project
+  enforce-g_malloc:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: enforce-g_malloc
+        run: "! git grep -P '(?<!g_)malloc' ':!.valgrind.suppressions' ':!.github/workflows/main.yml'"
+
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        CC:
+          - clang
+          - gcc
+        distro:
+          - alpine
+          - alpine-edge
+          - archlinux
+          - debian-bookworm
+          - debian-bullseye
+          - debian-buster
+          - fedora
+          - ubuntu-focal
+          - ubuntu-jammy
+          - ubuntu-noble
+
+    env:
+      CC: ${{ matrix.CC }}
+      EXTRA_CFLAGS: "-Werror ${{ (matrix.distro == 'debian-bookworm' || matrix.distro == 'ubuntu-jammy') && matrix.CC == 'clang' && '-gdwarf-4' || ' '}}"
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Clone the whole history including tags.
+          fetch-depth: 0
+
+      - name: setup $HOME for git
+        run: echo "HOME=${RUNNER_TEMP}" >> ${GITHUB_ENV}
+
+      - name: configure safe directory for git
+        run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
+
+      - name: build
+        run: make -j all dunstify test/test
+
+      - name: test
+        run: make -j test
+
+      - name: installation
+        run: ./test/test-install.sh
+
+      - name: valgrind memleaks
+        run: make clean && make -j test-valgrind
+
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/dunst-project/docker-images:${{ matrix.distro }}
+
+  coverage:
+    needs: build
+    env:
+      CC: gcc
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Clone the whole history including tags.
+          fetch-depth: 0
+
+      - name: setup $HOME for git
+        run: echo "HOME=${RUNNER_TEMP}" >> ${GITHUB_ENV}
+
+      - name: configure safe directory for git
+        run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
+
+      - name: coverage
+        run: make clean && make -j test-coverage
+
+      - name: Generate coverage report
+        run: lcov -c -d . -o lcov.info
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          flags: unittests
+          name: fedora-gcc
+          fail_ci_if_error: true
+
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/dunst-project/docker-images:fedora
+
+  doxygen:
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: doxygen
+        run: make -j doc-doxygen
+
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/dunst-project/docker-images:misc-doxygen
+
+  editorconfig:
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: editorconfig-checker/action-editorconfig-checker@main
+
+      - name: Check code matching .editorconfig rules with editorconfig-checker
+        run: editorconfig-checker
+
+    runs-on: ubuntu-latest

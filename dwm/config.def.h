@@ -50,11 +50,11 @@ static const Layout layouts[] = {
 	{ "[M]",      monocle },
 };
 
-static const char *upvol[]   = { "pamixer", "-i", "5", NULL };       /* +5% */
-static const char *downvol[] = { "pamixer", "-d", "5", NULL };       /* -5% */
-static const char *mutevol[] = { "pamixer", "-t", NULL };            /* Toggle Mute */
-static const char *brightnessup[]   = { "brightnessctl", "set", "5%+", NULL };
-static const char *brightnessdown[] = { "brightnessctl", "set", "5%-", NULL };
+static const char *upvol[]   = { "/bin/sh", "-c", "pamixer -i 5 && notify-send -a 'System' -r 999 -h int:value:$(pamixer --get-volume) -i 'audio-volume-high' 'Volume Up'", NULL };
+static const char *downvol[] = { "/bin/sh", "-c", "pamixer -d 5 && notify-send -a 'System' -r 999 -h int:value:$(pamixer --get-volume) -i 'audio-volume-low' 'Volume Down'", NULL };
+static const char *mutevol[] = { "/bin/sh", "-c", "pamixer -t && notify-send -a 'System' -i 'audio-volume-muted' 'Mute Toggled'", NULL };
+static const char *brightnessup[]   = { "/bin/sh", "-c", "brightnessctl set +5% && notify-send -a 'System' -r 998 -h int:value:$(brightnessctl i | grep -oP '\\(\\K[^%]+') -i 'display-brightness' 'Brightness Up'", NULL };
+static const char *brightnessdown[] = { "/bin/sh", "-c", "brightnessctl set 5%- && notify-send -a 'System' -r 998 -h int:value:$(brightnessctl i | grep -oP '\\(\\K[^%]+') -i 'display-brightness' 'Brightness Down'", NULL };
 
 /* key definitions */
 #define MODKEY Mod1Mask
@@ -74,6 +74,14 @@ static const char *dmenucmd[] = { "dmenu_run", "-c", "-l", "10", NULL };
 static const char *termcmd[]  = { "gnome-terminal", NULL };
 static const char *sysmenucmd[] = { "dwm-menu", NULL };
 static const char *appmanager[] = { "app_manager", NULL };
+static const char *layout_toggle[] = { "layout_toggle", NULL };
+static const char *lockcmd[] = { "lock", NULL };
+static const char *explorer[] = { "nsxiv", "-t", "~/Pictures", NULL };
+/* Commands for Dunst control */
+static const char *dunstclose[]     = { "dunstctl", "close",     NULL };
+static const char *dunstcloseall[]  = { "dunstctl", "close-all", NULL };
+static const char *dunsthistory[]   = { "dunstctl", "history-pop", NULL };
+static const char *dunstcontext[]   = { "dunstctl", "context",   NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -105,6 +113,13 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_equal,  setgaps,        {.i = 0  } },
 	{ MODKEY,                       XK_s,      spawn,          {.v = sysmenucmd } },
 	{ MODKEY, 						XK_x, 		spawn, 			{.v = appmanager } },
+	{ Mod4Mask, 					XK_space, 	spawn, 			{.v = layout_toggle } },
+	{ Mod4Mask,						XK_l,		spawn,          {.v = lockcmd } },
+	{ ControlMask,                  XK_space,  spawn,          {.v = dunstclose } },
+    { ControlMask|ShiftMask,        XK_space,  spawn,          {.v = dunstcloseall } },
+    { ControlMask,                  XK_grave,  spawn,          {.v = dunsthistory } },
+    { ControlMask|ShiftMask,        XK_period, spawn,          {.v = dunstcontext } },
+	{ Mod4Mask,           			XK_p,      spawn,          {.v = explorer } },
 	{ 0, 			XF86XK_AudioLowerVolume,  	spawn, 			{.v = downvol } },
     { 0, 			XF86XK_AudioMute,         	spawn, 			{.v = mutevol } },
     { 0, 			XF86XK_AudioRaiseVolume,  	spawn, 			{.v = upvol   } },

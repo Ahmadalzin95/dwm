@@ -1,15 +1,37 @@
 #!/bin/sh
 
+# Theme & Dark
+export XDG_CURRENT_DESKTOP=GNOME
+export GTK_THEME=Material-Black-Blueberry
+export ADW_DISABLE_PORTAL=1
+export XCURSOR_THEME=macOS
+# Required for Dark Mode
+/usr/libexec/xdg-desktop-portal &
+/usr/libexec/xdg-desktop-portal-gtk &
+
+dbus-update-activation-environment --systemd --all &
+
 # Prevent Ubuntu/Gnome from overriding keyboard settings
 gsettings set org.gnome.settings-daemon.plugins.keyboard active false &
 
 # Set keyboard layout
-(sleep 1; setxkbmap -layout us,de,ara -option grp:win_space_toggle) &
+(sleep 1; setxkbmap -layout us,de,ara) &
 
-# Background: Start status bar and visuals
-(sleep 1 && feh --bg-scale /usr/share/backgrounds/Fuwafuwa_nanbatto_san_by_amaral-dark.png) &
+# Background
+(sleep 1 && feh --bg-scale $HOME/suckless/assets/damascus-wp.jpg) &
+
+# Start compositor (Transparency/Blur)
 (sleep 1 && picom -b) &
+
+# Status Bar
 slstatus &
+
+# Start Notification Daemon
+dunst &
+
+# Load cursor and colors
+xrdb -merge "$HOME/.Xresources" &
+xsetroot -cursor_name left_ptr &
 
 # Start: Execute DWM
 exec dwm

@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+# Get the current layout
+CURRENT=$(setxkbmap -query | grep layout | awk '{print $2}')
+
+# Logic to cycle through: us -> de -> ara
+case "$CURRENT" in
+    us)
+        setxkbmap de
+        NEW="DE"
+        ICON="🇩🇪"
+        ;;
+    de)
+        setxkbmap ara
+        NEW="AR"
+        ICON="🇸🇦"
+        ;;
+    *)
+        setxkbmap us
+        NEW="US"
+        ICON="🇺🇸"
+        ;;
+esac
+
+# Send notification
+notify-send -a "System" -r 100 -i "input-keyboard" "Keyboard Layout" "Switched to: $NEW $ICON"

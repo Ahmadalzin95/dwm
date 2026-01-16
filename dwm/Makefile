@@ -54,8 +54,14 @@ install: all
 	cp -f ../scripts/bt_status ${DESTDIR}${PREFIX}/bin/bt_status
 	chmod 755 ${DESTDIR}${PREFIX}/bin/bt_status
 
+	cp -f ../scripts/layout_toggle ${DESTDIR}${PREFIX}/bin/layout_toggle
+	chmod 755 ${DESTDIR}${PREFIX}/bin/layout_toggle
+
 	cp -f ../scripts/hw_status ${DESTDIR}${PREFIX}/bin/hw_status
 	chmod 755 ${DESTDIR}${PREFIX}/bin/hw_status
+	
+	cp -f ../scripts/random_lock ${DESTDIR}${PREFIX}/bin/random_lock
+	chmod 755 ${DESTDIR}${PREFIX}/bin/random_lock
 
 uninstall:
 	rm -f ${DESTDIR}${PREFIX}/bin/dwm\
