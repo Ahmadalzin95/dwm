@@ -47,7 +47,7 @@ echo "Installing Betterlockscreen"
 echo "Source: https://github.com/betterlockscreen/betterlockscreen"
 
 BL_INSTALLER="$HOME/suckless/assets/betterlockscreen_install.sh"
-FIXED_WALL="$HOME/suckless/assets/penguin-lock.jpg"
+FIXED_WALL="$HOME/suckless/assets/lock-wp.jpg"
 if [ -f "$BL_INSTALLER" ]; then
     chmod +x "$BL_INSTALLER"
     sudo "$BL_INSTALLER" system latest true

@@ -18,7 +18,7 @@ gsettings set org.gnome.settings-daemon.plugins.keyboard active false &
 (sleep 1; setxkbmap -layout us,de,ara) &
 
 # Background
-(sleep 1 && feh --bg-scale $HOME/suckless/assets/damascus-wp.jpg) &
+(sleep 1 && feh --bg-scale $HOME/suckless/assets/wp.jpg) &
 
 # Start compositor (Transparency/Blur)
 (sleep 1 && picom -b) &

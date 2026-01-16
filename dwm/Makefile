@@ -60,8 +60,8 @@ install: all
 	cp -f ../scripts/hw_status ${DESTDIR}${PREFIX}/bin/hw_status
 	chmod 755 ${DESTDIR}${PREFIX}/bin/hw_status
 	
-	cp -f ../scripts/random_lock ${DESTDIR}${PREFIX}/bin/random_lock
-	chmod 755 ${DESTDIR}${PREFIX}/bin/random_lock
+	cp -f ../scripts/lock ${DESTDIR}${PREFIX}/bin/lock
+	chmod 755 ${DESTDIR}${PREFIX}/bin/lock
 
 uninstall:
 	rm -f ${DESTDIR}${PREFIX}/bin/dwm\
