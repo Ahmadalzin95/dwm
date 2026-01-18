@@ -1,30 +1,30 @@
 /* See LICENSE file for copyright and license details. */
 
-/* appearance */
-static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int gappx     = 12;       /* gaps between windows */
-static const unsigned int snap      = 32;       /* snap pixel */
-static const int showbar            = 0;        /* 0 means no bar */
-static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "JetBrainsMono Nerd Font:size=10" };
-static const char dmenufont[]       = "monospace:size=10";
+static unsigned int borderpx  = 1;        /* border pixel of windows */
+static unsigned int snap      = 32;       /* snap pixel */
+static int showbar            = 0;        /* 0 means no bar */
+static int topbar             = 1;        /* 0 means bottom bar */
+static char font[]            = "JetBrainsMono Nerd Font:size=10";
+static char dmenufont[]       = "monospace:size=10";
+static const char *fonts[]          = { font };
 static unsigned int baralpha        = 0x99;
 static unsigned int borderalpha     = OPAQUE;
 
-static const char col_gray1[]       = "#080b11";
-static const char col_gray2[]       = "#1d2155";
-static const char col_gray3[]       = "#a3b3d0";
-static const char col_gray4[]       = "#dde3ed";
-static const char col_cyan[]        = "#080b11";
-
-static const char *colors[][3]      = {
-	/* fg         bg         border   */
-	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
-	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
+static char normbgcolor[]           = "#080b11";
+static char normbordercolor[]       = "#1d2155";
+static char normfgcolor[]           = "#a3b3d0";
+static char selfgcolor[]            = "#dde3ed";
+static char selbordercolor[]        = "#82aaff";
+static char selbgcolor[]            = "#080b11";
+static char *colors[][3] = {
+       /*               fg           bg           border   */
+       [SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor },
+       [SchemeSel]  = { selfgcolor,  selbgcolor,  selbordercolor  },
 };
 
 /* tagging */
-static const char *tags[] = { "1", "2", "3" };
+static const char *tags[] = { "1", "2", "3", "4", "5" };
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -37,9 +37,9 @@ static const Rule rules[] = {
 };
 
 /* layout(s) */
-static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
-static const int nmaster     = 1;    /* number of clients in master area */
-static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
+static float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
+static int nmaster     = 1;    /* number of clients in master area */
+static int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
 static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
 static const int refreshrate = 120;  /* refresh rate (per second) for client move/resize */
 
@@ -70,7 +70,18 @@ static const char *brightnessdown[] = { "/bin/sh", "-c", "brightnessctl set 5%- 
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-c", "-l", "10", NULL };
+static const char *dmenucmd[] = { 
+    "dmenu_run", 
+    "-c",
+    "-l", "10", 
+    "-m", dmenumon, 
+    "-fn", dmenufont, 
+    "-nb", normbgcolor, 
+    "-nf", normfgcolor, 
+    "-sb", selbordercolor, 
+    "-sf", selfgcolor, 
+    NULL 
+};
 static const char *termcmd[]  = { "gnome-terminal", NULL };
 static const char *sysmenucmd[] = { "dwm-menu", NULL };
 static const char *appmanager[] = { "app_manager", NULL };
@@ -82,6 +93,27 @@ static const char *dunstclose[]     = { "dunstctl", "close",     NULL };
 static const char *dunstcloseall[]  = { "dunstctl", "close-all", NULL };
 static const char *dunsthistory[]   = { "dunstctl", "history-pop", NULL };
 static const char *dunstcontext[]   = { "dunstctl", "context",   NULL };
+
+/*
+ * Xresources preferences to load at startup
+ */
+ResourcePref resources[] = {
+		{ "font",               STRING,  &font },
+		{ "dmenufont",          STRING,  &dmenufont },
+		{ "normbgcolor",        STRING,  &normbgcolor },
+		{ "normbordercolor",    STRING,  &normbordercolor },
+		{ "normfgcolor",        STRING,  &normfgcolor },
+		{ "selbgcolor",         STRING,  &selbgcolor },
+		{ "selbordercolor",     STRING,  &selbordercolor },
+		{ "selfgcolor",         STRING,  &selfgcolor },
+		{ "borderpx",          	INTEGER, &borderpx },
+		{ "snap",          		INTEGER, &snap },
+		{ "showbar",          	INTEGER, &showbar },
+		{ "topbar",          	INTEGER, &topbar },
+		{ "nmaster",          	INTEGER, &nmaster },
+		{ "resizehints",       	INTEGER, &resizehints },
+		{ "mfact",      	 	FLOAT,   &mfact },
+};
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -129,6 +161,8 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
 	TAGKEYS(                        XK_4,                      3)
+	TAGKEYS(                        XK_5,                      4)
+	TAGKEYS(                        XK_6,                      5)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
 	{ MODKEY|ControlMask|ShiftMask, XK_q,      quit,           {1} }, 
 };

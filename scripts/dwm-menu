@@ -1,8 +1,13 @@
 #!/bin/sh
 
+NB=$(xrdb -query | awk '/dwm.normbgcolor/ {print $2}')
+NF=$(xrdb -query | awk '/dwm.normfgcolor/ {print $2}')
+SB=$(xrdb -query | awk '/dwm.selbgcolor/ {print $2}')
+SF=$(xrdb -query | awk '/dwm.selfgcolor/ {print $2}')
+
 options="󰖩  WIFI\n󰂯  Bluetooth\n󱘖  VPN\n󰐥  Shutdown\n󰜉  Reboot"
 
-chosen=$(printf "$options" | dmenu -i -c -l 12 -p "System:")
+chosen=$(printf "$options" | dmenu -nb "$NB" -nf "$NF" -sb "$SB" -sf "$SF" -i -c -l 12 -p "System:")
 
 case "$chosen" in
     *WIFI)

@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
 # Description: Dynamically list and manage running X11 applications
 
+
+NB=$(xrdb -query | awk '/dwm.normbgcolor/ {print $2}')
+NF=$(xrdb -query | awk '/dwm.normfgcolor/ {print $2}')
+SB=$(xrdb -query | awk '/dwm.selbgcolor/ {print $2}')
+SF=$(xrdb -query | awk '/dwm.selfgcolor/ {print $2}')
+
+
 # Get the second column where the binary names are located
 ALL_APPS=$(xlsclients | awk '{print $2}' | sort -u)
 
@@ -16,7 +23,7 @@ if [ -z "$RUNNING" ]; then
 fi
 
 # chooses an app via dmenu
-CHOICE=$(echo "$RUNNING" | dmenu -i -c -l 12 -p "Running Apps:")
+CHOICE=$(echo "$RUNNING" | dmenu -nb "$NB" -nf "$NF" -sb "$SB" -sf "$SF" -i -c -l 12 -p "Running Apps:")
 
 if [ -n "$CHOICE" ]; then
     # Kill the selected app

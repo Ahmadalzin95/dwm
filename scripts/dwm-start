@@ -18,7 +18,28 @@ gsettings set org.gnome.settings-daemon.plugins.keyboard active false &
 (sleep 1; setxkbmap -layout us,de,ara) &
 
 # Background
-(sleep 1 && feh --bg-scale $HOME/suckless/assets/wp.jpg) &
+# (sleep 1 && feh --bg-scale $HOME/suckless/assets/wp.jpg) &
+
+# Dynamic Theme Application (Wallust v3)
+DEFAULT_WP="$HOME/suckless/assets/wp.jpg"
+CACHE_WP="$HOME/.cache/wallust/wallpaper"
+
+if [ -f "$CACHE_WP" ]; then
+    WP_PATH=$(cat "$CACHE_WP")
+else
+    WP_PATH="$DEFAULT_WP"
+fi
+
+if [ -f "$WP_PATH" ]; then
+    # Wallust generates Xresources and Dunst config
+    wallust run "$WP_PATH"
+    # Set the background
+    (sleep 1 && feh --bg-scale "$WP_PATH") &
+else
+    # Fallback if image is missing
+    xrdb -merge "$HOME/.Xresources" &
+fi
+xrdb -merge "$HOME/.Xresources"
 
 # Start compositor (Transparency/Blur)
 (sleep 1 && picom -b) &
@@ -29,8 +50,7 @@ slstatus &
 # Start Notification Daemon
 dunst &
 
-# Load cursor and colors
-xrdb -merge "$HOME/.Xresources" &
+# Load cursor
 xsetroot -cursor_name left_ptr &
 
 # Start: Execute DWM

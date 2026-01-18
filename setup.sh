@@ -90,10 +90,6 @@ EOF
 
 cp "$HOME/.config/gtk-3.0/settings.ini" "$HOME/.config/gtk-4.0/settings.ini"
 
-# Set cursor in Xresources
-echo "Xcursor.theme: $CURSOR_NAME" > "$HOME/.Xresources"
-echo "Xcursor.size: 24" >> "$HOME/.Xresources"
-
 if [ -d "$HOME/.themes/$THEME_NAME" ]; then
     ln -sf "$HOME/.themes/$THEME_NAME/gtk-4.0/gtk.css" "$HOME/.config/gtk-4.0/gtk.css"
     ln -sf "$HOME/.themes/$THEME_NAME/gtk-4.0/gtk-dark.css" "$HOME/.config/gtk-4.0/gtk-dark.css"
@@ -113,6 +109,67 @@ default=gtk
 EOF
 
 sudo chmod -R 755 /usr/share/icons/$CURSOR_NAME
+
+echo "Installing Wallust v3..."
+
+sudo apt install -y curl
+
+WAL_TAG="3.4.0"
+WAL_FILE="3.3.0" 
+WAL_URL="https://codeberg.org/explosion-mental/wallust/releases/download/${WAL_TAG}/wallust-${WAL_FILE}-x86_64-unknown-linux-musl.tar.gz"
+
+# --- Installation Logic ---
+echo "Installing Wallust version ${WAL_TAG}..."
+
+TEMP_DIR=$(mktemp -d)
+if curl -L "$WAL_URL" -o "$TEMP_DIR/wallust.tar.gz"; then
+    tar -xzf "$TEMP_DIR/wallust.tar.gz" -C "$TEMP_DIR"
+    
+    sudo mv "$TEMP_DIR/wallust" /usr/local/bin/
+    sudo chmod +x /usr/local/bin/wallust
+    echo "✔ Wallust ${WAL_TAG} successfully installed."
+else
+    echo "Error: Failed to download Wallust from $WAL_URL"
+    exit 1
+fi
+
+echo "✔ Wallust v3 installed and configured."
+
+BASHRC_LINE='[ -f "$HOME/.cache/wallust/sequences" ] && source "$HOME/.cache/wallust/sequences"'
+
+if ! grep -qF "$BASHRC_LINE" "$HOME/.bashrc"; then
+    echo -e "\n# Load dynamic colors from wallust\n$BASHRC_LINE" >> "$HOME/.bashrc"
+    echo "✔ Added wallust sequences to .bashrc"
+else
+    echo "✔ .bashrc is already configured for wallust."
+fi
+
+mkdir -p "$HOME/.config/wallust"
+
+ASSETS_DIR="$HOME/suckless/assets/wallust-setup"
+if [ -d "$ASSETS_DIR" ]; then
+    cp "$ASSETS_DIR/wallust.toml" "$HOME/.config/wallust/wallust.toml"
+    cp "$ASSETS_DIR/xresources.template" "$HOME/.config/wallust/"
+    cp "$ASSETS_DIR/dunstrc.template" "$HOME/.config/wallust/"
+    cp "$ASSETS_DIR/sequences.template" "$HOME/.config/wallust/templates/"
+else
+    echo "Warning: Assets directory $ASSETS_DIR not found. Skipping config copy."
+fi
+
+echo "Configuring .Xresources..."
+
+cat <<EOF > "$HOME/.Xresources"
+Xcursor.theme: macOS
+Xcursor.size: 24
+
+#include "$HOME/.cache/wallust/colors.Xresources"
+EOF
+
+mkdir -p "$HOME/.cache/wallust"
+touch "$HOME/.cache/wallust/colors.Xresources"
+
+echo "✔ .Xresources updated."
+
 
 if [ -f "$ASSET_LOGO" ]; then
     echo "Replacing Ubuntu logo with linux penguin logo..."

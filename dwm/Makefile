@@ -63,6 +63,9 @@ install: all
 	cp -f ../scripts/lock ${DESTDIR}${PREFIX}/bin/lock
 	chmod 755 ${DESTDIR}${PREFIX}/bin/lock
 
+	cp -f ../scripts/apply-theme ${DESTDIR}${PREFIX}/bin/apply-theme
+	chmod 755 ${DESTDIR}${PREFIX}/bin/apply-theme
+
 uninstall:
 	rm -f ${DESTDIR}${PREFIX}/bin/dwm\
 		${DESTDIR}${MANPREFIX}/man1/dwm.1

@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+if [ -z "$1" ]; then
+    echo "Usage: ./apply-theme.sh /path/to/wallpaper.jpg"
+    exit 1
+fi
+
+WP_FULL_PATH=$(realpath "$1")
+echo "$WP_FULL_PATH" > "$HOME/.cache/wallust/wallpaper"
+
+wallust run "$WP_FULL_PATH"
+
+xrdb -merge "$HOME/.Xresources"
+
+feh --bg-scale "$WP_FULL_PATH"
+
+killall dunst && (dunst > /dev/null 2>&1 &)
+
+echo "✔ Theme applied and saved: $WP_FULL_PATH"
+echo "Note: Restart dwm (MOD+Shift+CTRL+Q) to see changes in the bar."
