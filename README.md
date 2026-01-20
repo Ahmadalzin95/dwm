@@ -32,7 +32,7 @@ The setup is designed to be completed with a single command.
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/Ahmadalzin95/dwm.git ~/suckless ~/suckless
+git clone https://github.com/Ahmadalzin95/dwm.git ~/suckless
 cd ~/suckless
 ```
 
