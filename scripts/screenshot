@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+# Colors & Border from Wallust
+SEC_COLOR=$(xrdb -query | awk '/dwm.selbordercolor/ {print $2}')
+[ -z "$SEC_COLOR" ] && SEC_COLOR="#82aaff"
+HEX=${SEC_COLOR#\#}
+R=$(printf "0.%02d" $((100 * 0x${HEX:0:2} / 255)))
+G=$(printf "0.%02d" $((100 * 0x${HEX:2:2} / 255)))
+B=$(printf "0.%02d" $((100 * 0x${HEX:4:2} / 255)))
+RGB_COLOR="$R,$G,$B,0.6"
+
+BORDER_WIDTH="3"
+
+DIR="$HOME/Pictures/Screenshots"
+mkdir -p "$DIR"
+FILE="$DIR/screenshot_$(date +%s).png"
+
+case "$1" in
+    "area")
+        maim -s -b "$BORDER_WIDTH" -c "$RGB_COLOR" | tee "$FILE" | xclip -selection clipboard -t image/png
+        ;;
+    "window")
+        maim -i $(xdotool getactivewindow) | tee "$FILE" | xclip -selection clipboard -t image/png
+        ;;
+    "full")
+        # Detect focused monitor geometry based on mouse position
+        X=$(xdotool getmouselocation --shell | grep X= | cut -d= -f2)
+        Y=$(xdotool getmouselocation --shell | grep Y= | cut -d= -f2)
+        
+        GEOM=$(xrandr --query | grep " connected" | grep -o '[0-9]\+x[0-9]\++[0-9]\++[0-9]\+' | while read -r G; do
+            W=$(echo $G | cut -dx -f1)
+            H=$(echo $G | cut -dx -f2 | cut -d+ -f1)
+            OX=$(echo $G | cut -d+ -f2)
+            OY=$(echo $G | cut -d+ -f3)
+            
+            if [ "$X" -ge "$OX" ] && [ "$X" -lt $((OX+W)) ] && [ "$Y" -ge "$OY" ] && [ "$Y" -lt $((OY+H)) ]; then
+                echo "$G"
+                break
+            fi
+        done)
+
+        maim -g "$GEOM" | tee "$FILE" | xclip -selection clipboard -t image/png
+        ;;
+esac
+
+if [ -f "$FILE" ]; then
+    notify-send "Screenshot captured" "Saved to $(basename "$FILE")" -i "camera-photo"
+fi

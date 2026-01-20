@@ -63,6 +63,9 @@ install: all
 	cp -f ../scripts/lock ${DESTDIR}${PREFIX}/bin/lock
 	chmod 755 ${DESTDIR}${PREFIX}/bin/lock
 
+	cp -f ../scripts/screenshot ${DESTDIR}${PREFIX}/bin/screenshot
+	chmod 755 ${DESTDIR}${PREFIX}/bin/screenshot
+
 	cp -f ../scripts/apply-theme ${DESTDIR}${PREFIX}/bin/apply-theme
 	chmod 755 ${DESTDIR}${PREFIX}/bin/apply-theme
 

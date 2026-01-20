@@ -5,6 +5,10 @@
 
     # Which monitor should the notifications be displayed on.
     monitor = 0
+    background = "{{background}}"
+    foreground = "{{foreground}}"
+    frame_color = "{{color4}}"
+    highlight = "{{color4}}"
 
     # Display notification on focused monitor.  Possible modes are:
     #   mouse: follow mouse pointer
@@ -223,7 +227,7 @@
     enable_recursive_icon_lookup = true
 
     # Set icon theme (only used for recursive icon lookup)
-    icon_theme = Adwaita, Papirus, Papirus-Dark, Yaru
+    icon_theme = Adwaita, Papirus, hicolor
     # You can also set multiple icon themes, with the leftmost one being used first.
     # icon_theme = "Adwaita, breeze"
 
@@ -233,13 +237,14 @@
     # Scale small icons up to this size, set to 0 to disable. Helpful
     # for e.g. small files or high-dpi screens. In case of conflict,
     # max_icon_size takes precedence over this.
-    min_icon_size = 32
+    min_icon_size = 16
 
     # Scale larger icons down to this size, set to 0 to disable
-    max_icon_size = 32
+    max_icon_size = 16
 
     # Paths to default icons (only necessary when not using recursive icon lookup)
     icon_path = /usr/share/icons/gnome/16x16/status/:/usr/share/icons/gnome/16x16/devices/
+    # icon_path = /usr/share/icons/Material-Black-Blueberry:/usr/share/icons/Adwaita/32x32/status:/usr/share/icons/Adwaita/32x32/devices
 
     ### History ###
 
@@ -340,35 +345,23 @@
 
 
 [urgency_low]
-    # IMPORTANT: colors have to be defined in quotation marks.
-    # Otherwise the "#" and following would be interpreted as a comment.
     background = "{{background}}"
     foreground = "{{foreground}}"
-    frame_color = "{{color4}}"
-	highlight = "{{color1}}, {{background}}"
     timeout = 10
-    # Icon for notifications with low urgency
-    #default_icon = dialog-information
 
 [urgency_normal]
     background = "{{background}}"
     foreground = "{{foreground}}"
-    frame_color = "{{color4}}
-	highlight = "{{color1}}, {{background}}"
+    frame_color = "{{color4}}"
+    highlight = "{{color4}}"
     timeout = 10
-    override_pause_level = 30
-    # Icon for notifications with normal urgency
-    default_icon = dialog-information
 
 [urgency_critical]
     background = "{{background}}"
     foreground = "{{color1}}"
     frame_color = "{{color1}}"
-	highlight = "{{color4}}, {{background}}"
+    highlight = "{{color1}}"
     timeout = 0
-    override_pause_level = 60
-    # Icon for notifications with critical urgency
-    default_icon = dialog-warning
 
 # Every section that isn't one of the above is interpreted as a rules to
 # override settings for certain messages.

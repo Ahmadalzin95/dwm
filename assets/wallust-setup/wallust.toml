@@ -1,7 +1,9 @@
-backend = "wal"
+backend = "full"
 color_space = "lab"
 palette = "dark16"
 check_contrast = true
+saturation = 20
+fallback_generator = "complementary"
 
 [templates]
 xres.src = "xresources.template"

@@ -1,18 +1,14 @@
 #!/bin/sh
+# List desktop applications for dmenu (English comments)
 
-cachedir="${XDG_CACHE_HOME:-"$HOME/.cache"}"
-cache="$cachedir/dmenu_run_desktop"
+# Define directories containing .desktop files
+# Including system, local, and snap paths
+dirs="/usr/share/applications /usr/local/share/applications $HOME/.local/share/applications /var/lib/snapd/desktop/applications"
 
-[ ! -e "$cachedir" ] && mkdir -p "$cachedir"
-
-dirs=""
-IFS=:
-for dir in "${XDG_DATA_DIRS:-"/usr/local/share:/usr/share"}"; do
-	dirs="${dirs}:${dir}/applications"
-done;
-
-if stest -dqr -n "$cache" $PATH; then
-	stest -fl $dirs | grep -v 'mimeinfo.cache' | sed 's/\.[^./]*$//' | sort -u | tee "$cache"
-else
-	cat "$cache"
-fi
+# Iterate through directories and list files
+for dir in $dirs; do
+    if [ -d "$dir" ]; then
+        # Find .desktop files and strip the path and extension
+        find "$dir" -maxdepth 1 -name "*.desktop" -exec basename {} .desktop \;
+    fi
+done | sort -u

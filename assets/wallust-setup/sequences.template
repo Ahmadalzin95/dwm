@@ -1,5 +1,6 @@
 #!/bin/sh
-# for gnome-terminal
+# for gnome-terminal (English comments)
+
 printf "\033]4;0;{{color0}}\033\\"
 printf "\033]4;1;{{color1}}\033\\"
 printf "\033]4;2;{{color2}}\033\\"
@@ -16,6 +17,10 @@ printf "\033]4;12;{{color12}}\033\\"
 printf "\033]4;13;{{color13}}\033\\"
 printf "\033]4;14;{{color14}}\033\\"
 printf "\033]4;15;{{color15}}\033\\"
+
+# Foreground, Background and Cursor
 printf "\033]10;{{foreground}}\033\\"
 printf "\033]11;{{background}}\033\\"
-printf "\033]12;{{cursor}}\033\\"
+printf "\033]12;{{foreground}}\033\\"
+printf "\033]17;{{foreground}}\033\\" 
+printf "\033]19;{{background}}\033\\"

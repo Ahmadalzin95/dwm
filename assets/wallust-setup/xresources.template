@@ -3,6 +3,12 @@
 *.background: {{background}}
 *.cursorColor: {{cursor}}
 
+*.selectionBackground: {{foreground}}
+*.selectionForeground: {{background}}
+
+*.highlightColor: {{foreground}}
+*.highlightTextColor: {{background}}
+
 *.color0: {{color0}}
 *.color1: {{color1}}
 *.color2: {{color2}}

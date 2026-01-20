@@ -68,10 +68,24 @@ static const char *brightnessdown[] = { "/bin/sh", "-c", "brightnessctl set 5%- 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
+static const int dmenudesktop = 1; /* 1 means dmenu will use only desktop files from [/usr/share/applications/] */
+
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { 
     "dmenu_run", 
+    "-c",
+    "-l", "10", 
+    "-m", dmenumon, 
+    "-fn", dmenufont, 
+    "-nb", normbgcolor, 
+    "-nf", normfgcolor, 
+    "-sb", selbordercolor, 
+    "-sf", selfgcolor, 
+    NULL 
+};
+static const char *dmenucmddesktop[] = { 
+    "dmenu_run_desktop", 
     "-c",
     "-l", "10", 
     "-m", dmenumon, 
@@ -88,6 +102,9 @@ static const char *appmanager[] = { "app_manager", NULL };
 static const char *layout_toggle[] = { "layout_toggle", NULL };
 static const char *lockcmd[] = { "lock", NULL };
 static const char *explorer[] = { "nsxiv", "-t", "~/Pictures", NULL };
+static const char *screenshot_full[]   = { "screenshot", "full",   NULL };
+static const char *screenshot_area[]   = { "screenshot", "area",   NULL };
+static const char *screenshot_window[] = { "screenshot", "window", NULL };
 /* Commands for Dunst control */
 static const char *dunstclose[]     = { "dunstctl", "close",     NULL };
 static const char *dunstcloseall[]  = { "dunstctl", "close-all", NULL };
@@ -117,54 +134,58 @@ ResourcePref resources[] = {
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
-	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
-	{ MODKEY,                       XK_b,      togglebar,      {0} },
-	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
-	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
-	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
-	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
-	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
-	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
-	{ MODKEY,                       XK_Return, zoom,           {0} },
-	{ MODKEY,                       XK_Tab,    view,           {0} },
-	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
-	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
-	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
-	{ MODKEY,                       XK_space,  setlayout,      {0} },
-	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
-	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
-	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
-	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
-	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
-	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
-	{ MODKEY,                       XK_minus,  setgaps,        {.i = -1 } },
-	{ MODKEY,                       XK_equal,  setgaps,        {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_equal,  setgaps,        {.i = 0  } },
-	{ MODKEY,                       XK_s,      spawn,          {.v = sysmenucmd } },
-	{ MODKEY, 						XK_x, 		spawn, 			{.v = appmanager } },
-	{ Mod4Mask, 					XK_space, 	spawn, 			{.v = layout_toggle } },
-	{ Mod4Mask,						XK_l,		spawn,          {.v = lockcmd } },
-	{ ControlMask,                  XK_space,  spawn,          {.v = dunstclose } },
-    { ControlMask|ShiftMask,        XK_space,  spawn,          {.v = dunstcloseall } },
-    { ControlMask,                  XK_grave,  spawn,          {.v = dunsthistory } },
-    { ControlMask|ShiftMask,        XK_period, spawn,          {.v = dunstcontext } },
-	{ Mod4Mask,           			XK_p,      spawn,          {.v = explorer } },
-	{ 0, 			XF86XK_AudioLowerVolume,  	spawn, 			{.v = downvol } },
-    { 0, 			XF86XK_AudioMute,         	spawn, 			{.v = mutevol } },
-    { 0, 			XF86XK_AudioRaiseVolume,  	spawn, 			{.v = upvol   } },
-    { 0, 			XF86XK_MonBrightnessUp,   	spawn, 			{.v = brightnessup   } },
-    { 0, 			XF86XK_MonBrightnessDown, 	spawn, 			{.v = brightnessdown } },
-	TAGKEYS(                        XK_1,                      0)
-	TAGKEYS(                        XK_2,                      1)
-	TAGKEYS(                        XK_3,                      2)
-	TAGKEYS(                        XK_4,                      3)
-	TAGKEYS(                        XK_5,                      4)
-	TAGKEYS(                        XK_6,                      5)
-	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
-	{ MODKEY|ControlMask|ShiftMask, XK_q,      quit,           {1} }, 
+	{ MODKEY|ShiftMask,             XK_p,      	spawn,          {.v = dmenucmd } },
+	{ MODKEY,                       XK_p,      	spawn,          {.v = dmenucmddesktop } },
+	{ MODKEY|ShiftMask,             XK_Return, 	spawn,          {.v = termcmd } },
+	{ MODKEY,                       XK_b,      	togglebar,      {0} },
+	{ MODKEY,                       XK_j,      	focusstack,     {.i = +1 } },
+	{ MODKEY,                       XK_k,      	focusstack,     {.i = -1 } },
+	{ MODKEY,                       XK_i,      	incnmaster,     {.i = +1 } },
+	{ MODKEY,                       XK_d,      	incnmaster,     {.i = -1 } },
+	{ MODKEY,                       XK_h,      	setmfact,       {.f = -0.05} },
+	{ MODKEY,                       XK_l,      	setmfact,       {.f = +0.05} },
+	{ MODKEY,                       XK_Return, 	zoom,           {0} },
+	{ MODKEY,                       XK_Tab,    	view,           {0} },
+	{ MODKEY|ShiftMask,             XK_c,      	killclient,     {0} },
+	{ MODKEY,                       XK_t,      	setlayout,      {.v = &layouts[0]} },
+	{ MODKEY,                       XK_f,      	setlayout,      {.v = &layouts[1]} },
+	{ MODKEY,                       XK_m,      	setlayout,      {.v = &layouts[2]} },
+	{ MODKEY,                       XK_space,  	setlayout,      {0} },
+	{ MODKEY|ShiftMask,             XK_space,  	togglefloating, {0} },
+	{ MODKEY,                       XK_0,      	view,           {.ui = ~0 } },
+	{ MODKEY|ShiftMask,             XK_0,      	tag,            {.ui = ~0 } },
+	{ MODKEY,                       XK_comma,  	focusmon,       {.i = -1 } },
+	{ MODKEY,                       XK_period, 	focusmon,       {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_comma,  	tagmon,         {.i = -1 } },
+	{ MODKEY|ShiftMask,             XK_period, 	tagmon,         {.i = +1 } },
+	{ MODKEY,                       XK_minus,  	setgaps,        {.i = -1 } },
+	{ MODKEY,                       XK_equal,  	setgaps,        {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_equal,  	setgaps,		{.i = 0  } },
+	{ MODKEY,                       XK_s,		spawn,			{.v = sysmenucmd } },
+	{ MODKEY, 						XK_x, 		spawn,			{.v = appmanager } },
+	{ Mod4Mask, 					XK_space, 	spawn,			{.v = layout_toggle } },
+	{ Mod4Mask,						XK_l,		spawn,			{.v = lockcmd } },
+	{ ControlMask,                  XK_space,	spawn,			{.v = dunstclose } },
+    { ControlMask|ShiftMask,        XK_space,	spawn,			{.v = dunstcloseall } },
+    { ControlMask,                  XK_grave,	spawn,			{.v = dunsthistory } },
+    { ControlMask|ShiftMask,        XK_period,	spawn,			{.v = dunstcontext } },
+	{ Mod4Mask,           			XK_p,		spawn,			{.v = explorer } },
+    { 0,							XK_Print,	spawn,			{.v = screenshot_full }   },
+    { Mod4Mask,						XK_s,		spawn,			{.v = screenshot_area }   },
+    { Mod4Mask|ShiftMask,			XK_s,		spawn,			{.v = screenshot_window } },
+	{ 0, 			XF86XK_AudioLowerVolume,  	spawn,			{.v = downvol } },
+    { 0, 			XF86XK_AudioMute,         	spawn,			{.v = mutevol } },
+    { 0, 			XF86XK_AudioRaiseVolume,  	spawn,			{.v = upvol   } },
+    { 0, 			XF86XK_MonBrightnessUp,   	spawn,			{.v = brightnessup   } },
+    { 0, 			XF86XK_MonBrightnessDown, 	spawn,			{.v = brightnessdown } },
+	TAGKEYS(                        XK_1,                      	0)
+	TAGKEYS(                        XK_2,                      	1)
+	TAGKEYS(                        XK_3,                      	2)
+	TAGKEYS(                        XK_4,                      	3)
+	TAGKEYS(                        XK_5,                      	4)
+	TAGKEYS(                        XK_6,                      	5)
+	{ MODKEY|ShiftMask,             XK_q,		quit,           {0} },
+	{ MODKEY|ControlMask|ShiftMask, XK_q,		quit,           {1} }, 
 };
 
 /* button definitions */
