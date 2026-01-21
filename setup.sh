@@ -9,6 +9,7 @@ CURSOR_FILE="$REPO_ROOT/assets/macOS.tar.xz"
 BOOT_ZIP="$REPO_ROOT/assets/linux-penguin.zip"
 ASSET_LOGO="$REPO_ROOT/assets/ubuntu-logo.png"
 SYSTEM_LOGO="/usr/share/plymouth/ubuntu-logo.png"
+FONT_URL="https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.zip"
 
 echo "Starting system setup"
 
@@ -29,7 +30,8 @@ xdg-mime default nsxiv.desktop image/gif
 
 # Prepare directories
 mkdir -p "$HOME/.config/dunst" "$HOME/.config/gtk-3.0" "$HOME/.config/gtk-4.0" \
-         "$HOME/.themes" "$HOME/.icons" "$HOME/.local/bin" "$HOME/.dwm"
+         "$HOME/.themes" "$HOME/.icons" "$HOME/.local/bin" "$HOME/.dwm" \
+         "$HOME/.local/share/fonts"
 
 # Install i3lock-color from source
 if ! command -v i3lock-color >/dev/null 2>&1; then
@@ -68,6 +70,17 @@ for tool in dwm dmenu slstatus; do
     fi
 done
 cd "$REPO_ROOT"
+
+# Install JetBrainsMono Nerd Font
+echo "Installing JetBrainsMono Nerd Font..."
+TEMP_FONT_DIR=$(mktemp -d)
+
+curl -L "$FONT_URL" -o "$TEMP_FONT_DIR/JetBrainsMono.zip"
+unzip -o "$TEMP_FONT_DIR/JetBrainsMono.zip" -d "$HOME/.local/share/fonts"
+
+rm -rf "$TEMP_FONT_DIR"
+fc-cache -fv
+echo "Font installation complete."
 
 # Link scripts and autostart
 chmod +x "$REPO_ROOT/scripts/"*.sh
