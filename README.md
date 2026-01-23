@@ -29,7 +29,7 @@ This setup is optimized for efficiency. Below is a real-world comparison between
 ### Why these numbers matter
 While standard Ubuntu is feature-rich, it is heavy. By switching to `dwm`, we reduce the memory footprint by nearly **1 GB**. This keeps your CPU and RAM available for actual work, not for managing the desktop environment itself.
 
---> *Note: Benchmarks were taken on a clean boot with no additional applications open.*
+--> *Note: Benchmarks reflect a production environment with active background Docker containers. Idle usage on a fresh boot without these services is significantly lower*
 
 ## Installation
 
