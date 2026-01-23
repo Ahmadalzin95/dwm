@@ -1,10 +1,16 @@
-# dwm - ubuntu 24.04
+# Ultimate dwm Setup for Ubuntu 24.04 (Automated Installer)
 
 This repository contains a fully automated, dynamic desktop environment based on the [dwm](https://dwm.suckless.org/) (dynamic window manager) and [dmenu](https://tools.suckless.org/dmenu/) from Suckless. It is specifically designed and optimized for Ubuntu 24.04 LTS.
 
 The setup features a "Material-Black-Blueberry" aesthetic, powered by [Wallust](https://explosion-mental.codeberg.page/wallust/intro.html) for real-time color generation across the entire system.
 
 > --> This project is provided "as is" and without any warranty. It works perfectly on my three personal laptops, but I cannot guarantee it will work on yours.
+
+## Key Features
+
+* **One-Command Install:** No manual compilation needed.
+* **Ubuntu Optimized:** Replaces GNOME bloat effectively.
+* **Dynamic Theming:** Wallust integration for instant color switches.
 
 ## Demo
 
@@ -32,7 +38,7 @@ The setup is designed to be completed with a single command.
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/Ahmadalzin95/dwm.git ~/suckless
+git clone https://github.com/Ahmadalzin95/dwm-ubuntu-24-04.git ~/suckless
 cd ~/suckless
 ```
 
