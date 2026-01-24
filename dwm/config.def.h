@@ -31,9 +31,11 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
-	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
+	/* class       instance    title       tags mask     isfloating   iscentered   monitor */
+	{ "Gimp",      NULL,       NULL,       0,            1,           0,           -1 },
+	{ "Firefox",   NULL,       NULL,       1 << 8,       0,           0,           -1 },
+	{ "CalPopup",  NULL,       NULL,       0,            1,           1,           -1 },
+	
 };
 
 /* layout(s) */
@@ -105,6 +107,7 @@ static const char *explorer[] = { "nsxiv", "-t", "~/Pictures", NULL };
 static const char *screenshot_full[]   = { "screenshot", "full",   NULL };
 static const char *screenshot_area[]   = { "screenshot", "area",   NULL };
 static const char *screenshot_window[] = { "screenshot", "window", NULL };
+static const char *calendar[] = { "gnome-terminal", "--class=CalPopup", "--geometry=22x12", "--", "mycal", NULL };
 /* Commands for Dunst control */
 static const char *dunstclose[]     = { "dunstctl", "close",     NULL };
 static const char *dunstcloseall[]  = { "dunstctl", "close-all", NULL };
@@ -161,6 +164,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_minus,  	setgaps,        {.i = -1 } },
 	{ MODKEY,                       XK_equal,  	setgaps,        {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_equal,  	setgaps,		{.i = 0  } },
+	{ MODKEY,                       XK_F1,      spawn,          {.v = calendar } },
 	{ MODKEY,                       XK_s,		spawn,			{.v = sysmenucmd } },
 	{ MODKEY, 						XK_x, 		spawn,			{.v = appmanager } },
 	{ Mod4Mask, 					XK_space, 	spawn,			{.v = layout_toggle } },

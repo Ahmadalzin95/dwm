@@ -21,7 +21,8 @@ sudo apt install -y build-essential libx11-dev libxinerama-dev libxft-dev git fe
     libxrandr-dev libxss-dev libglib2.0-dev libpango1.0-dev libgtk-3-dev \
     libxdg-basedir-dev libgdk-pixbuf-2.0-dev picom maim slop xclip xdotool \
     nsxiv plymouth plymouth-themes libpam-systemd gtk2-engines-murrine \
-    gtk2-engines-pixbuf unzip xdg-desktop-portal-gtk x11-xserver-utils imagemagick curl
+    gtk2-engines-pixbuf unzip xdg-desktop-portal-gtk x11-xserver-utils imagemagick curl \
+    ncal
 
 # Image viewer defaults
 xdg-mime default nsxiv.desktop image/jpeg

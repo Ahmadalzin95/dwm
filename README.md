@@ -72,6 +72,7 @@ All logic is contained within the [scripts/](https://github.com/Ahmadalzin95/dwm
 | `dwm-menu` | System hub for WiFi, Bluetooth, VPN, and Power management. |
 | `hw_status` | Detects hardware interfaces (`WiFi`, `Battery`, `Temp`) for bar monitoring. |
 | `layout_toggle` | Cycles keyboard layouts (`US`, `DE`, `AR`) with system notifications. |
+| `mycal` | Interactive calendar with Vim-like navigation (`j`/`k`) inside a terminal popup. |
 | `lock` | Activates a blurred lockscreen via [Betterlockscreen](https://github.com/betterlockscreen/betterlockscreen). |
 | `monitor.sh` | Sets the Xrandr monitor resolution and positioning. |
 | `screenshot` | Advanced screen capture tool for `areas`, `windows`, or `full monitors`. |
@@ -87,6 +88,7 @@ This configuration uses Alt (Mod1) as the main key and Super (Windows Key) for s
 * `Alt + Shift + Enter`: Open Gnome-Terminal
 * `Alt + s`: Open System Menu (Power/WiFi/VPN)
 * `Alt + x`: Open App Manager (Kill running apps)
+* `Alt + F1`: Open Calendar
 * `Super + p`: Open nsxiv Image Gallery
 
 ### Window Management

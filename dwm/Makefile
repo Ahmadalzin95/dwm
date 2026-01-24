@@ -66,6 +66,9 @@ install: all
 	cp -f ../scripts/screenshot ${DESTDIR}${PREFIX}/bin/screenshot
 	chmod 755 ${DESTDIR}${PREFIX}/bin/screenshot
 
+	cp -f ../scripts/mycal ${DESTDIR}${PREFIX}/bin/mycal
+	chmod 755 ${DESTDIR}${PREFIX}/bin/mycal
+
 	cp -f ../scripts/apply-theme ${DESTDIR}${PREFIX}/bin/apply-theme
 	chmod 755 ${DESTDIR}${PREFIX}/bin/apply-theme
 

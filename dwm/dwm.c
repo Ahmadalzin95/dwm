@@ -142,6 +142,7 @@ typedef struct {
 	const char *title;
 	unsigned int tags;
 	int isfloating;
+	int iscentered;
 	int monitor;
 } Rule;
 
@@ -335,6 +336,11 @@ applyrules(Client *c)
 			for (m = mons; m && m->num != r->monitor; m = m->next);
 			if (m)
 				c->mon = m;
+			if (r->iscentered) {
+				c->isfloating = 1;
+				c->x = c->mon->wx + (c->mon->ww - WIDTH(c)) / 2;
+				c->y = c->mon->wy + (c->mon->wh - HEIGHT(c)) / 2;
+			}
 		}
 	}
 	if (ch.res_class)

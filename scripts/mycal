@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+RESET="\033[0m"
+BOLD="\033[1m"
+BLUE="\033[34m"
+INVERT="\033[7m"
+GRAY="\033[90m" 
+
+REAL_D=$(date +%-d)
+REAL_M=$(date +%-m)
+REAL_Y=$(date +%Y)
+
+m=$REAL_M
+y=$REAL_Y
+
+while true; do
+    clear
+    cal_output=$(cal -m "$m" "$y")
+
+    HEADER_CMD="1s/.*/$(printf $BLUE)$(printf $BOLD)&$(printf $RESET)/"
+
+    if [ "$m" -eq "$REAL_M" ] && [ "$y" -eq "$REAL_Y" ]; then
+        echo "$cal_output" | \
+            sed "$HEADER_CMD" | \
+            sed "s/\b${REAL_D}\b/$(printf $INVERT)&$(printf $RESET)/"
+    else
+        echo "$cal_output" | sed "$HEADER_CMD"
+    fi
+
+    echo ""    
+    printf "${GRAY}< k:prev    j:next >\n"
+    printf "${GRAY}q:quit\n"
+
+    read -rsn1 key
+    case "$key" in
+        k) m=$((m-1)); [ "$m" -eq 0 ] && { m=12; y=$((y-1)); } ;;
+        j) m=$((m+1)); [ "$m" -eq 13 ] && { m=1; y=$((y+1)); } ;;
+        q) break ;;
+    esac
+done
