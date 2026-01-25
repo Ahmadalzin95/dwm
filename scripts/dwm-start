@@ -14,11 +14,13 @@ dbus-update-activation-environment --systemd --all &
 # Prevent Ubuntu/Gnome from overriding keyboard settings
 gsettings set org.gnome.settings-daemon.plugins.keyboard active false &
 
+# Disable Screen Blanking & Sleep
+xset s off
+xset s noblank
+xset -dpms
+
 # Set keyboard layout
 (sleep 1; setxkbmap -layout us,de,ara) &
-
-# Background
-# (sleep 1 && feh --bg-scale $HOME/suckless/assets/wp.jpg) &
 
 # Dynamic Theme Application (Wallust v3)
 DEFAULT_WP="$HOME/suckless/assets/wp.jpg"
